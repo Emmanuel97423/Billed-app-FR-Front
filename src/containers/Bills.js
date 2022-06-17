@@ -37,6 +37,7 @@ export default class {
           .map(doc => {
             try {
               return {
+                //Trie manquant
                 ...doc,
                 date: formatDate(doc.date),
                 status: formatStatus(doc.status)
