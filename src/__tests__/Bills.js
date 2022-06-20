@@ -26,10 +26,15 @@ describe("Given I am connected as an employee", () => {
       await waitFor(() => screen.getByTestId('icon-window'))
       const windowIcon = screen.getByTestId('icon-window')
       //to-do write expect expression
+      expect(windowIcon)
 
     })
     test("Then bills should be ordered from earliest to latest", () => {
       //test bills order antochronologique
+      const billsAntiChrono = (a, b) => ((a.date < b.date) ? 1 : -1)
+      // bills.sort(antiChrono)
+      console.log('bills.sort(antiChrono):', bills.sort(billsAntiChrono))
+
 
       //Trie des bills antichrono a faire
       document.body.innerHTML = BillsUI({ data: bills })
@@ -41,7 +46,7 @@ describe("Given I am connected as an employee", () => {
       console.log('datesSorted:', datesSorted)
 
 
-      expect(dates).not.toStrictEqual(datesSorted)
+      expect(dates).toEqual(datesSorted)
     })
   })
 })

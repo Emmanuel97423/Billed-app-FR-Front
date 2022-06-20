@@ -41,8 +41,6 @@ export default class {
                   //Trie manquant
                   ...doc,
                   // ...datesSorted,
-
-
                   date: formatDate(doc.date),
                   status: formatStatus(doc.status)
                 }
