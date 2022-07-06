@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { screen, waitFor } from "@testing-library/dom"
+import { screen, waitFor, fireEvent } from "@testing-library/dom"
 import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
 import { ROUTES_PATH } from "../constants/routes.js";
@@ -24,29 +24,91 @@ describe("Given I am connected as an employee", () => {
       router()
       window.onNavigate(ROUTES_PATH.Bills)
       await waitFor(() => screen.getByTestId('icon-window'))
+
       const windowIcon = screen.getByTestId('icon-window')
+
       //to-do write expect expression
-      expect(windowIcon)
+      expect(windowIcon).toBeTruthy()
+      expect(windowIcon.getAttribute("class")).toEqual('active-icon')
 
     })
     test("Then bills should be ordered from earliest to latest", () => {
       //test bills order antochronologique
       const billsAntiChrono = (a, b) => ((a.date < b.date) ? 1 : -1)
       // bills.sort(antiChrono)
-      console.log('bills.sort(antiChrono):', bills.sort(billsAntiChrono))
+      bills.sort(billsAntiChrono)
 
 
       //Trie des bills antichrono a faire
       document.body.innerHTML = BillsUI({ data: bills })
       const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
-      console.log('dates:', dates)
+
       const antiChrono = (a, b) => ((a < b) ? 1 : -1)
 
       const datesSorted = [...dates].sort(antiChrono)
-      console.log('datesSorted:', datesSorted)
+
 
 
       expect(dates).toEqual(datesSorted)
+    })
+
+  });
+
+  describe("when im on new bills page", () => {
+
+    test("When employee click on new bills route change to new bill page", async () => {
+      const root = document.createElement("div")
+      root.setAttribute("id", "root")
+      document.body.append(root)
+      router()
+      window.onNavigate(ROUTES_PATH.Bills)
+      await waitFor(() => screen.getByTestId('btn-new-bill'))
+      const newBillButton = screen.getByTestId('btn-new-bill')
+      fireEvent.click(newBillButton)
+      await window.onNavigate(ROUTES_PATH.NewBill)
+
+      const location = document.location.hash
+
+      expect(location).toEqual('#employee/bill/new')
+
+    });
+
+    test("When employe click on eyes icons", async () => {
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }))
+      const root = document.createElement("div")
+      root.setAttribute("id", "root")
+      document.body.append(root)
+      router()
+      window.onNavigate(ROUTES_PATH.Bills)
+      await waitFor(() => screen.getAllByTestId("icon-eye"))
+
+      const eyeIcon = screen.getAllByTestId('icon-eye')
+
+      console.log('eyeIcon:', eyeIcon.parentNode)
+
+
+      eyeIcon.map(icon => {
+        fireEvent.click(icon)
+
+
+        // waitFor(() => { screen.getByTestId('modal-dialog') })
+        const modal = screen.getByTestId('modal-dialog')
+        // console.log('modal:', modal)
+        expect(modal).toBeTruthy()
+
+
+      })
+
+      // waitFor(() => { screen.getByText('Justificatif') })
+      // const modal = screen.getByText('Justificatif')
+      // console.log('modal:', modal)
+      // expect(modal).toBeTruthy()
+
+
+
     })
   })
 })
