@@ -28,40 +28,38 @@ export default class {
   }
 
   getBills = () => {
+
     if (this.store) {
       return this.store
         .bills()
         .list()
         .then(snapshot => {
-          const bills = snapshot
-            .map(doc => {
+          // console.log('snapshot:', snapshot)
+          snapshot.sort((a, b) => ((a.date < b.date) ? 1 : -1))
+          // console.log('snapshot:', snapshot)
+          const bills = snapshot.map(doc => {
 
-              try {
-                return {
-                  //Trie manquant
-                  ...doc,
-                  // ...datesSorted,
-                  date: formatDate(doc.date),
-                  status: formatStatus(doc.status)
-                }
-              } catch (e) {
-                // if for some reason, corrupted data was introduced, we manage here failing formatDate function
-                // log the error and return unformatted date in that case
-                console.log(e, 'for', doc)
-                return {
-                  ...doc,
-                  date: doc.date,
-                  status: formatStatus(doc.status)
-                }
+
+            try {
+              return {
+                //Trie manquant
+                ...doc,
+                // ...datesSorted,
+                date: formatDate(doc.date),
+                status: formatStatus(doc.status)
               }
-            })
-          console.log('bills', bills)
-
-          const antiChrono = (a, b) => ((a.date < b.date) ? 1 : -1)
-          console.log(' bills.sort(antiChrono):', bills.sort(antiChrono))
-          return bills.sort(antiChrono)
-
-
+            } catch (e) {
+              // if for some reason, corrupted data was introduced, we manage here failing formatDate function
+              // log the error and return unformatted date in that case
+              console.log(e, 'for', doc)
+              return {
+                ...doc,
+                date: doc.date,
+                status: formatStatus(doc.status)
+              }
+            }
+          })
+          return bills
 
         })
     }

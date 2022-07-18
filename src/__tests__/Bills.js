@@ -87,20 +87,15 @@ describe("Given I am connected as an employee", () => {
 
       const eyeIcon = screen.getAllByTestId('icon-eye')
 
-      console.log('eyeIcon:', eyeIcon.parentNode)
+      screen.debug(eyeIcon)
+
+      fireEvent.click(eyeIcon[0])
+      // eyeIcon.map(icon => {
+      //   fireEvent.click(icon)
+      //   expect(modal).toBeTruthy()
 
 
-      eyeIcon.map(icon => {
-        fireEvent.click(icon)
-
-
-        // waitFor(() => { screen.getByTestId('modal-dialog') })
-        const modal = screen.getByTestId('modal-dialog')
-        // console.log('modal:', modal)
-        expect(modal).toBeTruthy()
-
-
-      })
+      // })
 
       // waitFor(() => { screen.getByText('Justificatif') })
       // const modal = screen.getByText('Justificatif')
