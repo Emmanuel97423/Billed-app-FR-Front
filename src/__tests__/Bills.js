@@ -105,5 +105,25 @@ describe("Given I am connected as an employee", () => {
 
 
     })
+  });
+  // Integration test for GET Bills
+  describe("Given I am a user connected as employee", () => {
+    describe("When i navigate to Bills", () => {
+      test("fetches bills mock API GET", async () => {
+        localStorage.setItem("user", JSON.stringify({ type: "Employee", email: "e@e" }));
+        const root = document.createElement("div")
+        root.setAttribute("id", "root")
+        document.body.append(root)
+        router()
+        window.onNavigate(ROUTES_PATH.Bills)
+        await waitFor(() => screen.getByText("Statut"));
+        const contentPending = await screen.getByText("En attente")
+        console.log("🚀 ~ file: Bills.js ~ line 121 ~ test ~ contentPending", contentPending)
+        expect(contentPending).toBeTruthy()
+        const contentRefused = await screen.getByText("Refused")
+        expect(contentRefused).toBeTruthy()
+        expect(screen.getByTestId("tbody")).toBeTruthy()
+      })
+    })
   })
 })
