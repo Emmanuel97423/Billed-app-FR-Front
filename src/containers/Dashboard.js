@@ -101,7 +101,7 @@ export default class {
       $('.vertical-navbar').css({ height: '150vh' })
       this.counter++
     } else {
-      console.log('bill:', bill)
+      // console.log('bill:', bill)
       $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' })
       $(`#open-bill${bill.id}`).css({ background: '#2A2B35' })
       $('.dashboard-right-container div').html(
