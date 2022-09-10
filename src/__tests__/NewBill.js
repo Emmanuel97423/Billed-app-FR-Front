@@ -107,9 +107,9 @@ describe("Given I am connected as an employee", () => {
 
       }
 
-      const updateBill = jest.fn((bill) => {
-        newBill.updateBill(bill)
-      });
+      // const updateBill = jest.fn((bill) => {
+      //   newBill.updateBill(bill)
+      // });
 
 
       fileInput.addEventListener('change', handleChangeFile)
