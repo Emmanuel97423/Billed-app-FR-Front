@@ -13,37 +13,17 @@ import store from "../__mocks__/store"
 
 
 
-
-
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
     test("Then should render a form", () => {
-      // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-      // window.localStorage.setItem('user', JSON.stringify({
-      //   type: 'Employee'
-      // }));
-      // const root = document.createElement("div")
-      // root.setAttribute("id", "root")
-      // document.body.append(root)
-      // router();
-      // window.onNavigate(ROUTES_PATH.NewBill)
 
       document.body.innerHTML = NewBillUI()
 
       //to-do write assertion
-      // const root = document.createElement("div")
-      // root.setAttribute("id", "root")
-      // document.body.append(root)
-
 
       const newBillForm = screen.getByTestId('form-new-bill')
 
-      // const location = document.location.hash
-
-      // expect(location).toEqual('#employee/bill/new')
-
       expect(newBillForm).toBeTruthy()
-
 
     });
 
@@ -59,8 +39,6 @@ describe("Given I am connected as an employee", () => {
       document.body.append(root)
       router();
       window.onNavigate(ROUTES_PATH.Bills)
-
-      // document.body.innerHTML = NewBillUI()
       const newBill = new NewBill({ document, onNavigate, store: store, localStorage: window.localStorage })
       const form = screen.getByTestId("form-new-bill");
       const expenseType = screen.getByTestId("expense-type")
@@ -73,7 +51,6 @@ describe("Given I am connected as an employee", () => {
       fireEvent.input(datepicker, { target: { value: "2022-01-01" } })
 
       const amount = screen.getByTestId("amount")
-      // fireEvent.mouseDown(amount)
       fireEvent.input(amount, {
         target: { value: "100" }
       })
@@ -88,28 +65,8 @@ describe("Given I am connected as an employee", () => {
       });
       const handleSubmit = jest.fn((e) => {
         newBill.handleSubmit(e);
-        // updateBill(bill)
       })
-      const email = window.localStorage.getItem('user')
-      const bill = {
-        email,
-        type: screen.getByTestId("expense-type").value,
-        name: screen.getByTestId("expense-name").value,
-        amount: parseInt(screen.getByTestId("amount").value),
-        date: screen.getByTestId("datepicker").value,
-        vat: screen.getByTestId("vat").value,
-        pct: parseInt(screen.getByTestId("pct").value),
-        commentary: screen.getByTestId("commentary").value,
-        fileUrl: null,
-        fileName: null,
-        status: 'pending'
 
-
-      }
-
-      // const updateBill = jest.fn((bill) => {
-      //   newBill.updateBill(bill)
-      // });
 
 
       fileInput.addEventListener('change', handleChangeFile)
@@ -119,12 +76,8 @@ describe("Given I am connected as an employee", () => {
       const formNewBill = screen.getByTestId("form-new-bill")
       formNewBill.addEventListener('submit', handleSubmit)
 
-
       const submitButton = screen.getByTestId('form-submit-button')
       fireEvent.click(submitButton)
-
-
-
 
       expect(fileInput.files[0]).toStrictEqual(file)
       expect(fileInput.files.item(0)).toStrictEqual(file)
@@ -134,7 +87,6 @@ describe("Given I am connected as an employee", () => {
       expect(pct.value).toEqual('30');
       expect(expenseType.value).toEqual('Transports')
 
-      // expect(handleSubmit).toHaveBeenCalled();
     });
 
 
@@ -151,18 +103,7 @@ describe("Given I m connected as an employee", () => {
       // restaure l'espion créé avec spyOn
       jest.restoreAllMocks();
     });
-    // beforeEach(() => {
-    //   jest.spyOn(store, "bills")
 
-    //   Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-    //   window.localStorage.setItem('user', JSON.stringify({
-    //     type: 'Employee'
-    //   }));
-    //   const root = document.createElement("div")
-    //   root.setAttribute("id", "root")
-    //   document.body.append(root)
-    //   router();
-    // })
     test("Then create bill to mock API POST", async () => {
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({

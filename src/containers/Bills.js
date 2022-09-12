@@ -28,8 +28,7 @@ export default class {
   }
 
 
-  // not need to cover this function by tests
-  /* istanbul ignore next */
+
   getBills = () => {
 
     if (this.store) {
@@ -37,11 +36,8 @@ export default class {
         .bills()
         .list()
         .then(snapshot => {
-          // console.log('snapshot:', snapshot)
           snapshot.sort((a, b) => ((a.date < b.date) ? 1 : -1))
-          // console.log('snapshot:', snapshot)
           const bills = snapshot.map(doc => {
-            console.log('doc:', doc)
 
 
             try {
